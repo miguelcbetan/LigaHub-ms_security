@@ -40,8 +40,16 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login")
+                .requestMatchers(HttpMethod.POST,
+                        "/api/auth/login",
+                        "/api/auth/2fa/verify",
+                        "/api/auth/oauth")
                 .permitAll()
+                // Cierre de sesión y ajustes propios: basta un token válido.
+                .requestMatchers(HttpMethod.POST, "/api/auth/logout")
+                .authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/auth/2fa-settings")
+                .authenticated()
                 // Registro público: crea el usuario sin roles ni permisos.
                 .requestMatchers(HttpMethod.POST, "/api/users")
                 .permitAll()

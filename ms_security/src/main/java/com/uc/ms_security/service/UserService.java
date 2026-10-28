@@ -1,6 +1,7 @@
 package com.uc.ms_security.service;
 
 import com.uc.ms_security.dto.*;
+import com.uc.ms_security.entity.AuthMethod;
 import com.uc.ms_security.entity.Role;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.exception.ApplicationException;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -39,21 +42,67 @@ public class UserService {
      */
     @Transactional
     public UserResponseDTO register(CreateUserDTO dto) {
-        Role initialRole = roleRepository
+        Role initialRole = findInitialRole();
+
+        UserResponseDTO created = create(dto);
+
+        assignRole(created.getId(), initialRole);
+
+        return created;
+    }
+
+    /**
+     * Alta de un usuario autenticado por un proveedor externo. Recibe las
+     * mismas reglas que el autorregistro (rol inicial, misma transacción) y
+     * ningún privilegio adicional. La contraseña es un valor aleatorio que
+     * nadie conoce: la cuenta solo es accesible por su proveedor.
+     */
+    @Transactional
+    public User registerExternal(String name, String email) {
+        Role initialRole = findInitialRole();
+
+        byte[] secret = new byte[32];
+        new SecureRandom().nextBytes(secret);
+
+        User user = new User();
+        user.setName(displayName(name, email));
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(
+                Base64.getUrlEncoder().withoutPadding().encodeToString(secret)));
+        user.setAuthMethod(AuthMethod.OAUTH);
+        User saved = userRepository.save(user);
+
+        assignRole(saved.getId(), initialRole);
+
+        return saved;
+    }
+
+    private Role findInitialRole() {
+        return roleRepository
                 .findByNameIgnoreCase(INITIAL_ROLE_NAME)
                 .orElseThrow(() -> new ApplicationException(
                         ErrorCase.NOT_FOUND,
                         "Rol inicial no encontrado: " + INITIAL_ROLE_NAME
                 ));
+    }
 
-        UserResponseDTO created = create(dto);
-
+    private void assignRole(Long userId, Role role) {
         AssignRoleRequestDTO assignment = new AssignRoleRequestDTO();
-        assignment.setUserId(created.getId());
-        assignment.setRoleId(initialRole.getId());
+        assignment.setUserId(userId);
+        assignment.setRoleId(role.getId());
         userRoleService.assign(assignment);
+    }
 
-        return created;
+    /** El nombre del proveedor puede faltar o no cumplir la longitud del modelo (2-100). */
+    private String displayName(String name, String email) {
+        String candidate = name == null ? "" : name.trim();
+        if (candidate.length() < 2) {
+            candidate = email.substring(0, email.indexOf('@'));
+        }
+        if (candidate.length() < 2) {
+            candidate = "Usuario";
+        }
+        return candidate.length() > 100 ? candidate.substring(0, 100) : candidate;
     }
 
     public UserResponseDTO create(CreateUserDTO dto) {

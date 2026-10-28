@@ -45,6 +45,24 @@ public class User {
     @ColumnDefault("1")
     private boolean active = true;
 
+    /** Segundo factor por correo; solo aplica al acceso con contraseña. */
+    @Column(
+            name = "two_factor_enabled",
+            nullable = false
+    )
+    @ColumnDefault("0")
+    private boolean twoFactorEnabled = false;
+
+    /** Cómo se creó la cuenta: contraseña propia o proveedor externo. */
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "auth_method",
+            nullable = false,
+            length = 20
+    )
+    @ColumnDefault("'LOCAL'")
+    private AuthMethod authMethod = AuthMethod.LOCAL;
+
     @OneToOne(
             mappedBy = "user",
             cascade = CascadeType.ALL,

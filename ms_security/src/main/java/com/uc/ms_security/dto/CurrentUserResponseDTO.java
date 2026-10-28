@@ -18,4 +18,9 @@ public class CurrentUserResponseDTO {
     List<String> roles;
 
     List<PermissionResponseDTO> permissions;
+
+    boolean twoFactorEnabled;
+
+    /** LOCAL (correo y contraseña) u OAUTH (proveedor externo). */
+    String authMethod;
 }
