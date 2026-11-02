@@ -8,6 +8,7 @@ import com.uc.ms_security.entity.RolePermission;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.entity.UserRole;
 import com.uc.ms_security.repository.ExternalIdentityRepository;
+import com.uc.ms_security.repository.PasswordResetTokenRepository;
 import com.uc.ms_security.repository.PermissionRepository;
 import com.uc.ms_security.repository.RolePermissionRepository;
 import com.uc.ms_security.repository.RoleRepository;
@@ -55,6 +56,7 @@ abstract class AbstractAuthTest {
     @Autowired protected RolePermissionRepository rolePermissionRepository;
     @Autowired protected SessionRepository sessionRepository;
     @Autowired protected ExternalIdentityRepository externalIdentityRepository;
+    @Autowired protected PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired protected TwoFactorChallengeRepository challengeRepository;
     @Autowired protected PasswordEncoder passwordEncoder;
 
@@ -66,6 +68,7 @@ abstract class AbstractAuthTest {
 
     @BeforeEach
     void cleanDatabase() {
+        passwordResetTokenRepository.deleteAll();
         challengeRepository.deleteAll();
         sessionRepository.deleteAll();
         externalIdentityRepository.deleteAll();

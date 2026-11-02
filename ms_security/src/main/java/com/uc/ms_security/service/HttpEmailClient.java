@@ -66,10 +66,42 @@ public class HttpEmailClient implements EmailClient {
         }
     }
 
+    @Override
+    public void sendPasswordReset(String email, String resetUrl, int expiresMinutes) {
+        if (apiKey == null || apiKey.isBlank()) {
+            log.error("email-service.api-key no está configurada; no se envía recuperación");
+            throw recoveryUnavailable();
+        }
+
+        try {
+            restClient.post()
+                    .uri("/api/password-reset/send")
+                    .header("X-Service-Key", apiKey)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Map.of(
+                            "email", email,
+                            "reset_url", resetUrl,
+                            "expires_minutes", expiresMinutes))
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (RestClientException e) {
+            log.warn("El servicio de correo rechazó o no atendió la recuperación ({})",
+                    e.getClass().getSimpleName());
+            throw recoveryUnavailable();
+        }
+    }
+
     private ApplicationException unavailable() {
         return new ApplicationException(
                 ErrorCase.SERVICE_UNAVAILABLE,
                 "No fue posible enviar el código de verificación. Inténtalo más tarde"
+        );
+    }
+
+    private ApplicationException recoveryUnavailable() {
+        return new ApplicationException(
+                ErrorCase.SERVICE_UNAVAILABLE,
+                "No fue posible enviar el correo de recuperación. Inténtalo más tarde"
         );
     }
 }

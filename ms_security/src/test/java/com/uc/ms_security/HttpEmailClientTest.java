@@ -63,6 +63,21 @@ class HttpEmailClientTest {
     }
 
     @Test
+    void sendsPasswordResetLinkWithServiceKeyAndExpectedPayload() {
+        new HttpEmailClient(url(), "clave-ficticia").sendPasswordReset(
+                "ana@liga.test",
+                "http://localhost:3000/recuperar?token=token-seguro",
+                15);
+
+        assertThat(path.get()).isEqualTo("/api/password-reset/send");
+        assertThat(serviceKey.get()).isEqualTo("clave-ficticia");
+        assertThat(body.get())
+                .contains("\"email\":\"ana@liga.test\"")
+                .contains("\"reset_url\":\"http://localhost:3000/recuperar?token=token-seguro\"")
+                .contains("\"expires_minutes\":15");
+    }
+
+    @Test
     void providerErrorBecomesServiceUnavailableWithoutLeakingDetails() {
         status = 502;
 
@@ -98,6 +113,17 @@ class HttpEmailClientTest {
     void missingApiKeyDoesNotSendAnything() {
         assertThatThrownBy(() -> new HttpEmailClient(url(), "")
                 .sendTwoFactorCode("ana@liga.test", "123456", 5))
+                .isInstanceOf(ApplicationException.class);
+        assertThat(body.get()).isNull();
+    }
+
+    @Test
+    void missingApiKeyDoesNotSendPasswordReset() {
+        assertThatThrownBy(() -> new HttpEmailClient(url(), "")
+                .sendPasswordReset(
+                        "ana@liga.test",
+                        "http://localhost:3000/recuperar?token=token",
+                        15))
                 .isInstanceOf(ApplicationException.class);
         assertThat(body.get()).isNull();
     }

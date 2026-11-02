@@ -85,6 +85,14 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
+    private List<PasswordResetToken> passwordResetTokens = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     private List<UserRole> userRoles = new ArrayList<>();
 
     public void addSession(Session session) {

@@ -11,4 +11,12 @@ public interface EmailClient {
      *         SERVICE_UNAVAILABLE si el correo no pudo enviarse
      */
     void sendTwoFactorCode(String email, String code, int expiresMinutes);
+
+    /**
+     * Envía el enlace temporal para establecer una nueva contraseña.
+     *
+     * @throws com.uc.ms_security.exception.ApplicationException con
+     *         SERVICE_UNAVAILABLE si el correo no pudo enviarse
+     */
+    void sendPasswordReset(String email, String resetUrl, int expiresMinutes);
 }

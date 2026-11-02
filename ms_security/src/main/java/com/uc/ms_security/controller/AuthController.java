@@ -4,10 +4,14 @@ import com.uc.ms_security.dto.AuthResponseDTO;
 import com.uc.ms_security.dto.CurrentUserResponseDTO;
 import com.uc.ms_security.dto.LoginRequestDTO;
 import com.uc.ms_security.dto.OAuthLoginRequestDTO;
+import com.uc.ms_security.dto.PasswordRecoveryRequestDTO;
+import com.uc.ms_security.dto.PasswordRecoveryResponseDTO;
+import com.uc.ms_security.dto.PasswordResetRequestDTO;
 import com.uc.ms_security.dto.TwoFactorSettingsDTO;
 import com.uc.ms_security.dto.TwoFactorVerifyRequestDTO;
 import com.uc.ms_security.service.AuthService;
 import com.uc.ms_security.service.OAuthService;
+import com.uc.ms_security.service.PasswordRecoveryService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,23 @@ public class AuthController {
 
     private final AuthService authService;
     private final OAuthService oAuthService;
+    private final PasswordRecoveryService passwordRecoveryService;
+
+    @PostMapping("/password-recovery")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public PasswordRecoveryResponseDTO requestPasswordRecovery(
+            @Valid @RequestBody PasswordRecoveryRequestDTO dto,
+            HttpServletRequest request) {
+
+        return passwordRecoveryService.requestRecovery(
+                dto.email(), request.getRemoteAddr());
+    }
+
+    @PostMapping("/password-reset")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void resetPassword(@Valid @RequestBody PasswordResetRequestDTO dto) {
+        passwordRecoveryService.resetPassword(dto.token(), dto.password());
+    }
 
     @PostMapping("/login")
     public AuthResponseDTO login(

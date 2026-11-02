@@ -43,7 +43,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,
                         "/api/auth/login",
                         "/api/auth/2fa/verify",
-                        "/api/auth/oauth")
+                        "/api/auth/oauth",
+                        "/api/auth/password-recovery",
+                        "/api/auth/password-reset")
                 .permitAll()
                 // Cierre de sesión y ajustes propios: basta un token válido.
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout")

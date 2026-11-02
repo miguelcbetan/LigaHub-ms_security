@@ -49,6 +49,10 @@ public interface SessionRepository
     );
 
     @Modifying
+    @Query("delete from Session s where s.user.id = :userId")
+    int deleteAllByUserId(@Param("userId") Long userId);
+
+    @Modifying
     @Query("delete from Session s where s.expiration < :now")
     int deleteExpired(@Param("now") LocalDateTime now);
 }
