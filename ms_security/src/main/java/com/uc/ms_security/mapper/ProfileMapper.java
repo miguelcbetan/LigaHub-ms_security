@@ -1,7 +1,7 @@
 package com.uc.ms_security.mapper;
 
-import com.uc.ms_security.dto.ProfileRequestDTO;
-import com.uc.ms_security.dto.ProfileResponseDTO;
+import com.uc.ms_security.dto.users.ProfileRequestDTO;
+import com.uc.ms_security.dto.users.ProfileResponseDTO;
 import com.uc.ms_security.entity.Profile;
 import org.springframework.stereotype.Component;
 

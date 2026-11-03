@@ -1,6 +1,6 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.*;
+import com.uc.ms_security.dto.users.*;
 import com.uc.ms_security.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

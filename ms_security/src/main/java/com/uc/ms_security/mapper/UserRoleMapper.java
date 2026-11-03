@@ -1,8 +1,8 @@
 package com.uc.ms_security.mapper;
 
-import com.uc.ms_security.dto.RoleUserResponseDTO;
-import com.uc.ms_security.dto.UserResponseDTO;
-import com.uc.ms_security.dto.UserRoleResponseDTO;
+import com.uc.ms_security.dto.roles.RoleUserResponseDTO;
+import com.uc.ms_security.dto.users.UserResponseDTO;
+import com.uc.ms_security.dto.users.UserRoleResponseDTO;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.entity.UserRole;
 import lombok.RequiredArgsConstructor;

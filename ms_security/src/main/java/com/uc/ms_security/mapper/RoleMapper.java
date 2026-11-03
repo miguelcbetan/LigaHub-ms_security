@@ -1,8 +1,8 @@
 package com.uc.ms_security.mapper;
 
-import com.uc.ms_security.dto.RolePermissionsResponseDTO;
-import com.uc.ms_security.dto.RoleRequestDTO;
-import com.uc.ms_security.dto.RoleResponseDTO;
+import com.uc.ms_security.dto.roles.RolePermissionsResponseDTO;
+import com.uc.ms_security.dto.roles.RoleRequestDTO;
+import com.uc.ms_security.dto.roles.RoleResponseDTO;
 import com.uc.ms_security.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

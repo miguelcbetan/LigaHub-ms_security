@@ -1,8 +1,8 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.ProfileRequestDTO;
-import com.uc.ms_security.dto.ProfileResponseDTO;
-import com.uc.ms_security.dto.UserDetailResponseDTO;
+import com.uc.ms_security.dto.users.ProfileRequestDTO;
+import com.uc.ms_security.dto.users.ProfileResponseDTO;
+import com.uc.ms_security.dto.users.UserDetailResponseDTO;
 import com.uc.ms_security.service.ProfileService;
 import com.uc.ms_security.service.UserService;
 import jakarta.validation.Valid;

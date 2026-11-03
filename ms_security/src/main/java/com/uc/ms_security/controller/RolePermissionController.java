@@ -1,8 +1,8 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.AssignPermissionRequestDTO;
-import com.uc.ms_security.dto.PermissionRoleResponseDTO;
-import com.uc.ms_security.dto.RolePermissionResponseDTO;
+import com.uc.ms_security.dto.permissions.AssignPermissionRequestDTO;
+import com.uc.ms_security.dto.permissions.PermissionRoleResponseDTO;
+import com.uc.ms_security.dto.roles.RolePermissionResponseDTO;
 import com.uc.ms_security.service.RolePermissionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

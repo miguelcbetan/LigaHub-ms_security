@@ -1,6 +1,6 @@
 package com.uc.ms_security.mapper;
 
-import com.uc.ms_security.dto.*;
+import com.uc.ms_security.dto.users.*;
 import com.uc.ms_security.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

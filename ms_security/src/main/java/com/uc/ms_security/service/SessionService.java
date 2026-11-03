@@ -1,7 +1,7 @@
 package com.uc.ms_security.service;
 
-import com.uc.ms_security.dto.SessionRequestDTO;
-import com.uc.ms_security.dto.SessionResponseDTO;
+import com.uc.ms_security.dto.sessions.SessionRequestDTO;
+import com.uc.ms_security.dto.sessions.SessionResponseDTO;
 import com.uc.ms_security.entity.Session;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.exception.ApplicationException;

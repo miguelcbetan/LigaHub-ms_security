@@ -1,6 +1,6 @@
 package com.uc.ms_security.service;
 
-import com.uc.ms_security.dto.PasswordRecoveryResponseDTO;
+import com.uc.ms_security.dto.auth.PasswordRecoveryResponseDTO;
 import com.uc.ms_security.entity.AuthMethod;
 import com.uc.ms_security.entity.PasswordResetToken;
 import com.uc.ms_security.entity.User;

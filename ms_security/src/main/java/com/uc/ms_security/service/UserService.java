@@ -1,6 +1,7 @@
 package com.uc.ms_security.service;
 
-import com.uc.ms_security.dto.*;
+import com.uc.ms_security.dto.roles.AssignRoleRequestDTO;
+import com.uc.ms_security.dto.users.*;
 import com.uc.ms_security.entity.AuthMethod;
 import com.uc.ms_security.entity.Role;
 import com.uc.ms_security.entity.User;

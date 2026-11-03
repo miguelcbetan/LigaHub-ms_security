@@ -1,6 +1,6 @@
 package com.uc.ms_security.service;
 
-import com.uc.ms_security.dto.AuthResponseDTO;
+import com.uc.ms_security.dto.auth.AuthResponseDTO;
 import com.uc.ms_security.entity.Session;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.repository.SessionRepository;

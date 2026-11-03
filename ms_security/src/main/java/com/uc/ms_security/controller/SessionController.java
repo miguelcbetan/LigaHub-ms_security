@@ -1,7 +1,7 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.SessionRequestDTO;
-import com.uc.ms_security.dto.SessionResponseDTO;
+import com.uc.ms_security.dto.sessions.SessionRequestDTO;
+import com.uc.ms_security.dto.sessions.SessionResponseDTO;
 import com.uc.ms_security.service.SessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

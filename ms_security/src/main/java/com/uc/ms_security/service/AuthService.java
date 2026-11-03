@@ -1,8 +1,8 @@
 package com.uc.ms_security.service;
 
-import com.uc.ms_security.dto.AuthResponseDTO;
-import com.uc.ms_security.dto.CurrentUserResponseDTO;
-import com.uc.ms_security.dto.LoginRequestDTO;
+import com.uc.ms_security.dto.auth.AuthResponseDTO;
+import com.uc.ms_security.dto.users.CurrentUserResponseDTO;
+import com.uc.ms_security.dto.auth.LoginRequestDTO;
 import com.uc.ms_security.entity.AuthMethod;
 import com.uc.ms_security.entity.Profile;
 import com.uc.ms_security.entity.User;

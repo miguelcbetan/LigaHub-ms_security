@@ -1,14 +1,14 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.AuthResponseDTO;
-import com.uc.ms_security.dto.CurrentUserResponseDTO;
-import com.uc.ms_security.dto.LoginRequestDTO;
-import com.uc.ms_security.dto.OAuthLoginRequestDTO;
-import com.uc.ms_security.dto.PasswordRecoveryRequestDTO;
-import com.uc.ms_security.dto.PasswordRecoveryResponseDTO;
-import com.uc.ms_security.dto.PasswordResetRequestDTO;
-import com.uc.ms_security.dto.TwoFactorSettingsDTO;
-import com.uc.ms_security.dto.TwoFactorVerifyRequestDTO;
+import com.uc.ms_security.dto.auth.AuthResponseDTO;
+import com.uc.ms_security.dto.users.CurrentUserResponseDTO;
+import com.uc.ms_security.dto.auth.LoginRequestDTO;
+import com.uc.ms_security.dto.auth.OAuthLoginRequestDTO;
+import com.uc.ms_security.dto.auth.PasswordRecoveryRequestDTO;
+import com.uc.ms_security.dto.auth.PasswordRecoveryResponseDTO;
+import com.uc.ms_security.dto.auth.PasswordResetRequestDTO;
+import com.uc.ms_security.dto.auth.TwoFactorSettingsDTO;
+import com.uc.ms_security.dto.auth.TwoFactorVerifyRequestDTO;
 import com.uc.ms_security.service.AuthService;
 import com.uc.ms_security.service.OAuthService;
 import com.uc.ms_security.service.PasswordRecoveryService;
