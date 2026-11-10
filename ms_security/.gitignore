@@ -9,6 +9,8 @@ target/
 src/main/resources/
 # Copia de la build de Eclipse: contiene el mismo application.properties.
 bin/
+# Seeder local de base de datos.
+DatabaseSeeder.java
 
 ### STS ###
 .apt_generated

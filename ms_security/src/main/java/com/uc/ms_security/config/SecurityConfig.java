@@ -58,6 +58,8 @@ public class SecurityConfig {
                 // Identidad y permisos propios: basta con tener un token válido.
                 .requestMatchers(HttpMethod.GET, "/api/auth/me")
                 .authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/internal/security/permissions-validation")
+                .authenticated()
                 .anyRequest()
                 .access(dynamicAuthorizationManager)
             )

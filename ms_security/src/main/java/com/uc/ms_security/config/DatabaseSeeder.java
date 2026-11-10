@@ -57,7 +57,30 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/api/role-permissions/permissions/{id}", "RolePermission"),
             new PermissionSeed("DELETE", "/api/role-permissions/{id}/{id}", "RolePermission"),
             new PermissionSeed("GET", "/api/users/{id}/sessions", "Session"),
-            new PermissionSeed("DELETE", "/api/users/{id}/sessions/{id}", "Session")
+            new PermissionSeed("DELETE", "/api/users/{id}/sessions/{id}", "Session"),
+            new PermissionSeed("POST", "/torneos", "Torneo"),
+            new PermissionSeed("GET", "/torneos", "Torneo"),
+            new PermissionSeed("GET", "/torneos/{id}/fases", "Torneo"),
+            new PermissionSeed("GET", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("PATCH", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("DELETE", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("POST", "/fases", "Fase"),
+            new PermissionSeed("GET", "/fases", "Fase"),
+            new PermissionSeed("GET", "/fases/{id}", "Fase"),
+            new PermissionSeed("PATCH", "/fases/{id}", "Fase"),
+            new PermissionSeed("DELETE", "/fases/{id}", "Fase"),
+            new PermissionSeed("POST", "/inscripciones", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones/reports/torneo/{torneoId}/count", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("PATCH", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("DELETE", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("POST", "/escenarios-torneo", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo/reports/torneo/{torneoId}/count", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo/{id}", "EscenarioTorneo"),
+            new PermissionSeed("PATCH", "/escenarios-torneo/{id}", "EscenarioTorneo"),
+            new PermissionSeed("DELETE", "/escenarios-torneo/{id}", "EscenarioTorneo")
     };
 
     private final UserRepository userRepository;
