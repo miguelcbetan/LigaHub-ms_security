@@ -80,7 +80,33 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/escenarios-torneo", "EscenarioTorneo"),
             new PermissionSeed("GET", "/escenarios-torneo/{id}", "EscenarioTorneo"),
             new PermissionSeed("PATCH", "/escenarios-torneo/{id}", "EscenarioTorneo"),
-            new PermissionSeed("DELETE", "/escenarios-torneo/{id}", "EscenarioTorneo")
+            new PermissionSeed("DELETE", "/escenarios-torneo/{id}", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/deportes", "Deporte"),
+            new PermissionSeed("POST", "/deportes", "Deporte"),
+            new PermissionSeed("GET", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("PATCH", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("DELETE", "/deportes/{id}", "Deporte")
+    };
+
+    private static final PermissionSeed[] SPORTS_ADMIN_PERMISSIONS = {
+            new PermissionSeed("POST", "/torneos", "Torneo"),
+            new PermissionSeed("GET", "/torneos", "Torneo"),
+            new PermissionSeed("GET", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("PATCH", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("DELETE", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("GET", "/deportes", "Deporte"),
+            new PermissionSeed("POST", "/deportes", "Deporte"),
+            new PermissionSeed("GET", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("PATCH", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("DELETE", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("POST", "/equipos", "Equipo"),
+            new PermissionSeed("GET", "/equipos", "Equipo"),
+            new PermissionSeed("GET", "/equipos/{id}", "Equipo"),
+            new PermissionSeed("PATCH", "/equipos/{id}", "Equipo"),
+            new PermissionSeed("DELETE", "/equipos/{id}", "Equipo"),
+            new PermissionSeed("GET", "/equipos-deportes", "EquipoDeporte"),
+            new PermissionSeed("POST", "/equipos-deportes", "EquipoDeporte"),
+            new PermissionSeed("DELETE", "/equipos-deportes/{id}", "EquipoDeporte")
     };
 
     private final UserRepository userRepository;
@@ -103,6 +129,10 @@ public class DatabaseSeeder {
                     "USUARIO INICIAL",
                     "Rol inicial para usuarios registrados"
             );
+            Role sportsAdminRole = findOrCreateRole(
+                    "ADMINISTRADOR DEPORTIVO",
+                    "Gestión de torneos y competencias deportivas"
+            );
 
             User adminUser = findOrCreateUser();
             assignRole(adminUser, adminRole);
@@ -110,6 +140,10 @@ public class DatabaseSeeder {
             for (PermissionSeed seed : ADMIN_PERMISSIONS) {
                 Permission permission = findOrCreatePermission(seed);
                 assignPermission(adminRole, permission);
+            }
+
+            for (PermissionSeed seed : SPORTS_ADMIN_PERMISSIONS) {
+                assignPermission(sportsAdminRole, findOrCreatePermission(seed));
             }
 
             Permission listUsers = findOrCreatePermission(
