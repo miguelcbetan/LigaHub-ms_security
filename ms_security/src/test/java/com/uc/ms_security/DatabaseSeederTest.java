@@ -41,6 +41,22 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "DELETE /equipos-deportes/{id}"
     };
 
+    private static final String[] PERMISOS_JUGADORES = {
+            "POST /jugadores",
+            "GET /jugadores",
+            "GET /jugadores/{id}",
+            "PATCH /jugadores/{id}",
+            "DELETE /jugadores/{id}",
+            "GET /api/users",
+            "GET /api/users/{id}"
+    };
+
+    private static final String[] PERMISOS_PLANTILLAS = {
+            "GET /equipo-jugador",
+            "POST /equipo-jugador",
+            "PATCH /equipo-jugador/{id}/retiro"
+    };
+
     @Autowired
     @Qualifier("seedDatabase")
     private CommandLineRunner seedDatabase;
@@ -51,12 +67,13 @@ class DatabaseSeederTest extends AbstractAuthTest {
         seedDatabase.run();
 
         Role role = roleRepository.findByNameIgnoreCase("ADMINISTRADOR DEPORTIVO").orElseThrow();
-        Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_DEPORTES, PERMISOS_EQUIPOS)
+        Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
+                        PERMISOS_PLANTILLAS)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(18);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(28);
     }
 
     @Test
@@ -73,6 +90,27 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_EQUIPOS);
         assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_EQUIPOS);
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaJugadores() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_JUGADORES);
+        assertThat(permisosDe("ADMIN")).doesNotContain(
+                "POST /jugadores",
+                "GET /jugadores",
+                "GET /jugadores/{id}",
+                "PATCH /jugadores/{id}",
+                "DELETE /jugadores/{id}");
+    }
+
+    @Test
+    void soloAdministradorDeportivoAsignaJugadoresAEquipos() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_PLANTILLAS);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_PLANTILLAS);
     }
 
     private Set<String> permisosDe(String rol) {

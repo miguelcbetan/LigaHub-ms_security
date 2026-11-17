@@ -106,7 +106,17 @@ public class DatabaseSeeder {
             new PermissionSeed("DELETE", "/equipos/{id}", "Equipo"),
             new PermissionSeed("GET", "/equipos-deportes", "EquipoDeporte"),
             new PermissionSeed("POST", "/equipos-deportes", "EquipoDeporte"),
-            new PermissionSeed("DELETE", "/equipos-deportes/{id}", "EquipoDeporte")
+            new PermissionSeed("DELETE", "/equipos-deportes/{id}", "EquipoDeporte"),
+            new PermissionSeed("POST", "/jugadores", "Jugador"),
+            new PermissionSeed("GET", "/jugadores", "Jugador"),
+            new PermissionSeed("GET", "/jugadores/{id}", "Jugador"),
+            new PermissionSeed("PATCH", "/jugadores/{id}", "Jugador"),
+            new PermissionSeed("DELETE", "/jugadores/{id}", "Jugador"),
+            new PermissionSeed("GET", "/equipo-jugador", "EquipoJugador"),
+            new PermissionSeed("POST", "/equipo-jugador", "EquipoJugador"),
+            new PermissionSeed("PATCH", "/equipo-jugador/{id}/retiro", "EquipoJugador"),
+            new PermissionSeed("GET", "/api/users", "User"),
+            new PermissionSeed("GET", "/api/users/{id}", "User")
     };
 
     private final UserRepository userRepository;
