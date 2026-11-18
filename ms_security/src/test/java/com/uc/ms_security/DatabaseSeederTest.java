@@ -57,6 +57,20 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "PATCH /equipo-jugador/{id}/retiro"
     };
 
+    private static final String[] PERMISOS_HABILIDADES = {
+            "POST /habilidades",
+            "GET /habilidades",
+            "GET /habilidades/{id}",
+            "PATCH /habilidades/{id}",
+            "DELETE /habilidades/{id}"
+    };
+
+    private static final String[] PERMISOS_HABILIDADES_JUGADOR = {
+            "POST /habilidad-jugador",
+            "GET /habilidad-jugador",
+            "DELETE /habilidad-jugador/{id}"
+    };
+
     @Autowired
     @Qualifier("seedDatabase")
     private CommandLineRunner seedDatabase;
@@ -68,12 +82,12 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         Role role = roleRepository.findByNameIgnoreCase("ADMINISTRADOR DEPORTIVO").orElseThrow();
         Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
-                        PERMISOS_PLANTILLAS)
+                        PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(28);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(36);
     }
 
     @Test
@@ -111,6 +125,22 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_PLANTILLAS);
         assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_PLANTILLAS);
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaHabilidades() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_HABILIDADES);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_HABILIDADES);
+    }
+
+    @Test
+    void soloAdministradorDeportivoAsignaHabilidadesAJugadores() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_HABILIDADES_JUGADOR);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_HABILIDADES_JUGADOR);
     }
 
     private Set<String> permisosDe(String rol) {

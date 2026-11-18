@@ -115,6 +115,14 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/equipo-jugador", "EquipoJugador"),
             new PermissionSeed("POST", "/equipo-jugador", "EquipoJugador"),
             new PermissionSeed("PATCH", "/equipo-jugador/{id}/retiro", "EquipoJugador"),
+            new PermissionSeed("POST", "/habilidades", "Habilidad"),
+            new PermissionSeed("GET", "/habilidades", "Habilidad"),
+            new PermissionSeed("GET", "/habilidades/{id}", "Habilidad"),
+            new PermissionSeed("PATCH", "/habilidades/{id}", "Habilidad"),
+            new PermissionSeed("DELETE", "/habilidades/{id}", "Habilidad"),
+            new PermissionSeed("POST", "/habilidad-jugador", "HabilidadJugador"),
+            new PermissionSeed("GET", "/habilidad-jugador", "HabilidadJugador"),
+            new PermissionSeed("DELETE", "/habilidad-jugador/{id}", "HabilidadJugador"),
             new PermissionSeed("GET", "/api/users", "User"),
             new PermissionSeed("GET", "/api/users/{id}", "User")
     };
