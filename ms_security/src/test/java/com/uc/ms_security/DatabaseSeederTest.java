@@ -17,9 +17,36 @@ class DatabaseSeederTest extends AbstractAuthTest {
     private static final String[] PERMISOS_TORNEOS = {
             "POST /torneos",
             "GET /torneos",
+            "GET /torneos/{id}/fases",
             "GET /torneos/{id}",
             "PATCH /torneos/{id}",
             "DELETE /torneos/{id}"
+    };
+
+    private static final String[] PERMISOS_FASES = {
+            "POST /fases",
+            "GET /fases",
+            "GET /fases/{id}",
+            "PATCH /fases/{id}",
+            "DELETE /fases/{id}"
+    };
+
+    private static final String[] PERMISOS_INSCRIPCIONES = {
+            "POST /inscripciones",
+            "GET /inscripciones/reports/torneo/{torneoId}/count",
+            "GET /inscripciones",
+            "GET /inscripciones/{id}",
+            "PATCH /inscripciones/{id}",
+            "DELETE /inscripciones/{id}"
+    };
+
+    private static final String[] PERMISOS_ESCENARIOS_TORNEO = {
+            "POST /escenarios-torneo",
+            "GET /escenarios-torneo/reports/torneo/{torneoId}/count",
+            "GET /escenarios-torneo",
+            "GET /escenarios-torneo/{id}",
+            "PATCH /escenarios-torneo/{id}",
+            "DELETE /escenarios-torneo/{id}"
     };
 
     private static final String[] PERMISOS_DEPORTES = {
@@ -45,6 +72,7 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "POST /jugadores",
             "GET /jugadores",
             "GET /jugadores/{id}",
+            "GET /jugadores/{id}/perfil",
             "PATCH /jugadores/{id}",
             "DELETE /jugadores/{id}",
             "GET /api/users",
@@ -81,13 +109,14 @@ class DatabaseSeederTest extends AbstractAuthTest {
         seedDatabase.run();
 
         Role role = roleRepository.findByNameIgnoreCase("ADMINISTRADOR DEPORTIVO").orElseThrow();
-        Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
+        Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_FASES, PERMISOS_INSCRIPCIONES,
+                        PERMISOS_ESCENARIOS_TORNEO, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
                         PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(36);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(55);
     }
 
     @Test

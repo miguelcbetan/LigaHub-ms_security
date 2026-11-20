@@ -91,9 +91,27 @@ public class DatabaseSeeder {
     private static final PermissionSeed[] SPORTS_ADMIN_PERMISSIONS = {
             new PermissionSeed("POST", "/torneos", "Torneo"),
             new PermissionSeed("GET", "/torneos", "Torneo"),
+            new PermissionSeed("GET", "/torneos/{id}/fases", "Torneo"),
             new PermissionSeed("GET", "/torneos/{id}", "Torneo"),
             new PermissionSeed("PATCH", "/torneos/{id}", "Torneo"),
             new PermissionSeed("DELETE", "/torneos/{id}", "Torneo"),
+            new PermissionSeed("POST", "/fases", "Fase"),
+            new PermissionSeed("GET", "/fases", "Fase"),
+            new PermissionSeed("GET", "/fases/{id}", "Fase"),
+            new PermissionSeed("PATCH", "/fases/{id}", "Fase"),
+            new PermissionSeed("DELETE", "/fases/{id}", "Fase"),
+            new PermissionSeed("POST", "/inscripciones", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones/reports/torneo/{torneoId}/count", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones", "Inscripcion"),
+            new PermissionSeed("GET", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("PATCH", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("DELETE", "/inscripciones/{id}", "Inscripcion"),
+            new PermissionSeed("POST", "/escenarios-torneo", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo/reports/torneo/{torneoId}/count", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo", "EscenarioTorneo"),
+            new PermissionSeed("GET", "/escenarios-torneo/{id}", "EscenarioTorneo"),
+            new PermissionSeed("PATCH", "/escenarios-torneo/{id}", "EscenarioTorneo"),
+            new PermissionSeed("DELETE", "/escenarios-torneo/{id}", "EscenarioTorneo"),
             new PermissionSeed("GET", "/deportes", "Deporte"),
             new PermissionSeed("POST", "/deportes", "Deporte"),
             new PermissionSeed("GET", "/deportes/{id}", "Deporte"),
@@ -110,6 +128,7 @@ public class DatabaseSeeder {
             new PermissionSeed("POST", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores/{id}", "Jugador"),
+            new PermissionSeed("GET", "/jugadores/{id}/perfil", "Jugador"),
             new PermissionSeed("PATCH", "/jugadores/{id}", "Jugador"),
             new PermissionSeed("DELETE", "/jugadores/{id}", "Jugador"),
             new PermissionSeed("GET", "/equipo-jugador", "EquipoJugador"),
@@ -140,17 +159,14 @@ public class DatabaseSeeder {
             Role adminRole = findOrCreateRole("ADMIN", "Administrador");
             Role consultantRole = findOrCreateRole(
                     "CONSULTOR",
-                    "Consulta de usuarios"
-            );
-            
+                    "Consulta de usuarios");
+
             Role initialRole = findOrCreateRole(
                     "USUARIO INICIAL",
-                    "Rol inicial para usuarios registrados"
-            );
+                    "Rol inicial para usuarios registrados");
             Role sportsAdminRole = findOrCreateRole(
                     "ADMINISTRADOR DEPORTIVO",
-                    "Gestión de torneos y competencias deportivas"
-            );
+                    "Gestión de torneos y competencias deportivas");
 
             User adminUser = findOrCreateUser();
             assignRole(adminUser, adminRole);
@@ -165,11 +181,9 @@ public class DatabaseSeeder {
             }
 
             Permission listUsers = findOrCreatePermission(
-                    new PermissionSeed("GET", "/api/users", "User")
-            );
+                    new PermissionSeed("GET", "/api/users", "User"));
             Permission getUser = findOrCreatePermission(
-                    new PermissionSeed("GET", "/api/users/{id}", "User")
-            );
+                    new PermissionSeed("GET", "/api/users/{id}", "User"));
             assignPermission(consultantRole, listUsers);
             assignPermission(consultantRole, getUser);
 
