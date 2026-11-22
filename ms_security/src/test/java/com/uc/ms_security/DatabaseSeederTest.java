@@ -18,6 +18,7 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "POST /torneos",
             "GET /torneos",
             "GET /torneos/{id}/fases",
+            "GET /torneos/{id}/desarrollo",
             "GET /torneos/{id}",
             "PATCH /torneos/{id}",
             "DELETE /torneos/{id}"
