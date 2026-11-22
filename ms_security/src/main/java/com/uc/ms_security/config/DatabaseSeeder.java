@@ -85,7 +85,11 @@ public class DatabaseSeeder {
             new PermissionSeed("POST", "/deportes", "Deporte"),
             new PermissionSeed("GET", "/deportes/{id}", "Deporte"),
             new PermissionSeed("PATCH", "/deportes/{id}", "Deporte"),
-            new PermissionSeed("DELETE", "/deportes/{id}", "Deporte")
+            new PermissionSeed("DELETE", "/deportes/{id}", "Deporte"),
+            new PermissionSeed("GET", "/equipos", "Equipo"),
+            new PermissionSeed("GET", "/fases/{id}/equipos", "Fase"),
+            new PermissionSeed("POST", "/fases/{id}/equipos", "Fase"),
+            new PermissionSeed("DELETE", "/fases/{id}/equipos/{id}", "Fase")
     };
 
     private static final PermissionSeed[] SPORTS_ADMIN_PERMISSIONS = {
@@ -125,6 +129,9 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/equipos-deportes", "EquipoDeporte"),
             new PermissionSeed("POST", "/equipos-deportes", "EquipoDeporte"),
             new PermissionSeed("DELETE", "/equipos-deportes/{id}", "EquipoDeporte"),
+            new PermissionSeed("GET", "/fases/{id}/equipos", "Fase"),
+            new PermissionSeed("POST", "/fases/{id}/equipos", "Fase"),
+            new PermissionSeed("DELETE", "/fases/{id}/equipos/{id}", "Fase"),
             new PermissionSeed("POST", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores/{id}", "Jugador"),

@@ -31,6 +31,12 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "DELETE /fases/{id}"
     };
 
+    private static final String[] PERMISOS_GRUPOS_EQUIPOS = {
+            "GET /fases/{id}/equipos",
+            "POST /fases/{id}/equipos",
+            "DELETE /fases/{id}/equipos/{id}"
+    };
+
     private static final String[] PERMISOS_INSCRIPCIONES = {
             "POST /inscripciones",
             "GET /inscripciones/reports/torneo/{torneoId}/count",
@@ -111,12 +117,13 @@ class DatabaseSeederTest extends AbstractAuthTest {
         Role role = roleRepository.findByNameIgnoreCase("ADMINISTRADOR DEPORTIVO").orElseThrow();
         Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_FASES, PERMISOS_INSCRIPCIONES,
                         PERMISOS_ESCENARIOS_TORNEO, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
-                        PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR)
+                        PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR,
+                        PERMISOS_GRUPOS_EQUIPOS)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(55);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(58);
     }
 
     @Test
@@ -132,7 +139,16 @@ class DatabaseSeederTest extends AbstractAuthTest {
         seedDatabase.run();
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_EQUIPOS);
-        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_EQUIPOS);
+        // El ADMIN solo lista equipos (para asignarlos a grupos); no los gestiona.
+        assertThat(permisosDe("ADMIN")).contains("GET /equipos");
+        assertThat(permisosDe("ADMIN")).doesNotContain(
+                "POST /equipos",
+                "GET /equipos/{id}",
+                "PATCH /equipos/{id}",
+                "DELETE /equipos/{id}",
+                "GET /equipos-deportes",
+                "POST /equipos-deportes",
+                "DELETE /equipos-deportes/{id}");
     }
 
     @Test
@@ -170,6 +186,14 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_HABILIDADES_JUGADOR);
         assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_HABILIDADES_JUGADOR);
+    }
+
+    @Test
+    void adminYAdministradorDeportivoAsignanEquiposAGrupos() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_GRUPOS_EQUIPOS);
+        assertThat(permisosDe("ADMIN")).contains(PERMISOS_GRUPOS_EQUIPOS);
     }
 
     private Set<String> permisosDe(String rol) {
