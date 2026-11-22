@@ -152,6 +152,13 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/habilidad-jugador", "HabilidadJugador"),
             new PermissionSeed("DELETE", "/habilidad-jugador/{id}", "HabilidadJugador"),
             new PermissionSeed("GET", "/equipos/{id}/aficionados", "AficionadoEquipo"),
+            // HU-GC-06: gestión de partidos; los escenarios se listan para asociarlos.
+            new PermissionSeed("POST", "/partidos", "Partido"),
+            new PermissionSeed("GET", "/partidos", "Partido"),
+            new PermissionSeed("GET", "/partidos/{id}", "Partido"),
+            new PermissionSeed("PATCH", "/partidos/{id}", "Partido"),
+            new PermissionSeed("DELETE", "/partidos/{id}", "Partido"),
+            new PermissionSeed("GET", "/escenarios", "Escenario"),
             new PermissionSeed("GET", "/api/users", "User"),
             new PermissionSeed("GET", "/api/users/{id}", "User")
     };
