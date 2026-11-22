@@ -89,7 +89,8 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/equipos", "Equipo"),
             new PermissionSeed("GET", "/fases/{id}/equipos", "Fase"),
             new PermissionSeed("POST", "/fases/{id}/equipos", "Fase"),
-            new PermissionSeed("DELETE", "/fases/{id}/equipos/{id}", "Fase")
+            new PermissionSeed("DELETE", "/fases/{id}/equipos/{id}", "Fase"),
+            new PermissionSeed("GET", "/fases/{id}/partidos", "Fase")
     };
 
     private static final PermissionSeed[] SPORTS_ADMIN_PERMISSIONS = {
@@ -132,6 +133,7 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/fases/{id}/equipos", "Fase"),
             new PermissionSeed("POST", "/fases/{id}/equipos", "Fase"),
             new PermissionSeed("DELETE", "/fases/{id}/equipos/{id}", "Fase"),
+            new PermissionSeed("GET", "/fases/{id}/partidos", "Fase"),
             new PermissionSeed("POST", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores", "Jugador"),
             new PermissionSeed("GET", "/jugadores/{id}", "Jugador"),
@@ -149,8 +151,18 @@ public class DatabaseSeeder {
             new PermissionSeed("POST", "/habilidad-jugador", "HabilidadJugador"),
             new PermissionSeed("GET", "/habilidad-jugador", "HabilidadJugador"),
             new PermissionSeed("DELETE", "/habilidad-jugador/{id}", "HabilidadJugador"),
+            new PermissionSeed("GET", "/equipos/{id}/aficionados", "AficionadoEquipo"),
             new PermissionSeed("GET", "/api/users", "User"),
             new PermissionSeed("GET", "/api/users/{id}", "User")
+    };
+
+    /** HU-GE-05: cualquier usuario registrado puede volverse aficionado y elegir sus equipos. */
+    private static final PermissionSeed[] AFICIONADO_PERMISSIONS = {
+            new PermissionSeed("GET", "/aficionados/me", "Aficionado"),
+            new PermissionSeed("POST", "/aficionados/me", "Aficionado"),
+            new PermissionSeed("GET", "/aficionados/me/equipos-disponibles", "Aficionado"),
+            new PermissionSeed("POST", "/aficionados/me/equipos", "Aficionado"),
+            new PermissionSeed("DELETE", "/aficionados/me/equipos/{id}", "Aficionado")
     };
 
     private final UserRepository userRepository;
@@ -198,6 +210,10 @@ public class DatabaseSeeder {
                     new PermissionSeed("GET", "/api/profile/me", "Profile")));
             assignPermission(initialRole, findOrCreatePermission(
                     new PermissionSeed("PUT", "/api/profile/me", "Profile")));
+
+            for (PermissionSeed seed : AFICIONADO_PERMISSIONS) {
+                assignPermission(initialRole, findOrCreatePermission(seed));
+            }
         };
     }
 

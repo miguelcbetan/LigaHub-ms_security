@@ -34,7 +34,8 @@ class DatabaseSeederTest extends AbstractAuthTest {
     private static final String[] PERMISOS_GRUPOS_EQUIPOS = {
             "GET /fases/{id}/equipos",
             "POST /fases/{id}/equipos",
-            "DELETE /fases/{id}/equipos/{id}"
+            "DELETE /fases/{id}/equipos/{id}",
+            "GET /fases/{id}/partidos"
     };
 
     private static final String[] PERMISOS_INSCRIPCIONES = {
@@ -105,6 +106,18 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "DELETE /habilidad-jugador/{id}"
     };
 
+    private static final String[] PERMISOS_AFICIONADOS_DE_EQUIPO = {
+            "GET /equipos/{id}/aficionados"
+    };
+
+    private static final String[] PERMISOS_AFICIONADO = {
+            "GET /aficionados/me",
+            "POST /aficionados/me",
+            "GET /aficionados/me/equipos-disponibles",
+            "POST /aficionados/me/equipos",
+            "DELETE /aficionados/me/equipos/{id}"
+    };
+
     @Autowired
     @Qualifier("seedDatabase")
     private CommandLineRunner seedDatabase;
@@ -118,12 +131,12 @@ class DatabaseSeederTest extends AbstractAuthTest {
         Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_FASES, PERMISOS_INSCRIPCIONES,
                         PERMISOS_ESCENARIOS_TORNEO, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
                         PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR,
-                        PERMISOS_GRUPOS_EQUIPOS)
+                        PERMISOS_GRUPOS_EQUIPOS, PERMISOS_AFICIONADOS_DE_EQUIPO)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(58);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(60);
     }
 
     @Test
@@ -194,6 +207,15 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_GRUPOS_EQUIPOS);
         assertThat(permisosDe("ADMIN")).contains(PERMISOS_GRUPOS_EQUIPOS);
+    }
+
+    @Test
+    void cualquierUsuarioRegistradoPuedeVolverseAficionado() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("USUARIO INICIAL")).contains(PERMISOS_AFICIONADO);
+        assertThat(permisosDe("USUARIO INICIAL")).doesNotContain(PERMISOS_AFICIONADOS_DE_EQUIPO);
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_AFICIONADOS_DE_EQUIPO);
     }
 
     private Set<String> permisosDe(String rol) {
