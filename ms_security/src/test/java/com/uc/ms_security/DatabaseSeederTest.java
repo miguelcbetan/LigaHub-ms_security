@@ -110,6 +110,25 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "GET /equipos/{id}/aficionados"
     };
 
+    /** HU-GC-06: gestión de partidos; los escenarios se listan para asociarlos. */
+    private static final String[] PERMISOS_PARTIDOS = {
+            "POST /partidos",
+            "GET /partidos",
+            "GET /partidos/{id}",
+            "PATCH /partidos/{id}",
+            "DELETE /partidos/{id}",
+            "GET /escenarios"
+    };
+
+    /** HU-GC-07: goles (anotaciones) de los partidos. */
+    private static final String[] PERMISOS_ANOTACIONES = {
+            "POST /anotaciones",
+            "GET /anotaciones",
+            "GET /anotaciones/{id}",
+            "PATCH /anotaciones/{id}",
+            "DELETE /anotaciones/{id}"
+    };
+
     private static final String[] PERMISOS_AFICIONADO = {
             "GET /aficionados/me",
             "POST /aficionados/me",
@@ -131,12 +150,21 @@ class DatabaseSeederTest extends AbstractAuthTest {
         Set<String> esperados = Stream.of(PERMISOS_TORNEOS, PERMISOS_FASES, PERMISOS_INSCRIPCIONES,
                         PERMISOS_ESCENARIOS_TORNEO, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
                         PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR,
-                        PERMISOS_GRUPOS_EQUIPOS, PERMISOS_AFICIONADOS_DE_EQUIPO)
+                        PERMISOS_GRUPOS_EQUIPOS, PERMISOS_AFICIONADOS_DE_EQUIPO, PERMISOS_PARTIDOS,
+                        PERMISOS_ANOTACIONES)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).isEqualTo(esperados);
-        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(60);
+        assertThat(rolePermissionRepository.findAllByRoleId(role.getId())).hasSize(esperados.size());
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaGoles() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_ANOTACIONES);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_ANOTACIONES);
     }
 
     @Test

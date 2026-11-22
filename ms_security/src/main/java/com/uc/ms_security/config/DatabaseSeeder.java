@@ -158,6 +158,12 @@ public class DatabaseSeeder {
             new PermissionSeed("GET", "/partidos/{id}", "Partido"),
             new PermissionSeed("PATCH", "/partidos/{id}", "Partido"),
             new PermissionSeed("DELETE", "/partidos/{id}", "Partido"),
+            // HU-GC-07: goles (anotaciones) de los partidos.
+            new PermissionSeed("POST", "/anotaciones", "Anotacion"),
+            new PermissionSeed("GET", "/anotaciones", "Anotacion"),
+            new PermissionSeed("GET", "/anotaciones/{id}", "Anotacion"),
+            new PermissionSeed("PATCH", "/anotaciones/{id}", "Anotacion"),
+            new PermissionSeed("DELETE", "/anotaciones/{id}", "Anotacion"),
             new PermissionSeed("GET", "/escenarios", "Escenario"),
             new PermissionSeed("GET", "/api/users", "User"),
             new PermissionSeed("GET", "/api/users/{id}", "User")
