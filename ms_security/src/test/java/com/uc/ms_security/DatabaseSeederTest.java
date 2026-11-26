@@ -130,12 +130,59 @@ class DatabaseSeederTest extends AbstractAuthTest {
             "DELETE /anotaciones/{id}"
     };
 
+    /** HU-A: gestión de escenarios y de sus localidades. */
+    private static final String[] PERMISOS_ESCENARIOS_LOCALIDADES = {
+            "POST /escenarios",
+            "GET /escenarios/{id}",
+            "PATCH /escenarios/{id}",
+            "DELETE /escenarios/{id}",
+            "GET /localidades",
+            "POST /localidades",
+            "GET /localidades/{id}",
+            "PATCH /localidades/{id}",
+            "DELETE /localidades/{id}"
+    };
+
+    private static final String[] PERMISOS_METODOS_PAGO_ADMIN = {
+            "GET /metodos-pago-aficionado",
+            "POST /metodos-pago-aficionado",
+            "GET /metodos-pago-aficionado/{id}",
+            "PATCH /metodos-pago-aficionado/{id}",
+            "DELETE /metodos-pago-aficionado/{id}",
+            "GET /metodos-pago",
+            "GET /aficionados"
+    };
+
+    /** HU-C: gestión de boletos y liquidación de apuestas. */
+    private static final String[] PERMISOS_BOLETOS_APUESTAS = {
+            "GET /boletas",
+            "POST /boletas",
+            "GET /boletas/{id}",
+            "PATCH /boletas/{id}",
+            "DELETE /boletas/{id}",
+            "GET /apuestas",
+            "POST /apuestas",
+            "GET /apuestas/{id}",
+            "PATCH /apuestas/{id}",
+            "DELETE /apuestas/{id}"
+    };
+
     private static final String[] PERMISOS_AFICIONADO = {
             "GET /aficionados/me",
             "POST /aficionados/me",
             "GET /aficionados/me/equipos-disponibles",
             "POST /aficionados/me/equipos",
-            "DELETE /aficionados/me/equipos/{id}"
+            "DELETE /aficionados/me/equipos/{id}",
+            "GET /aficionados/me/metodos-pago",
+            "POST /aficionados/me/metodos-pago",
+            "PATCH /aficionados/me/metodos-pago/{id}",
+            "DELETE /aficionados/me/metodos-pago/{id}",
+            "GET /aficionados/me/metodos-pago-disponibles",
+            "GET /aficionados/me/partidos-disponibles",
+            "GET /aficionados/me/boletas",
+            "POST /aficionados/me/boletas",
+            "GET /aficionados/me/apuestas",
+            "POST /aficionados/me/apuestas"
     };
 
     @Autowired
@@ -152,7 +199,8 @@ class DatabaseSeederTest extends AbstractAuthTest {
                         PERMISOS_ESCENARIOS_TORNEO, PERMISOS_DEPORTES, PERMISOS_EQUIPOS, PERMISOS_JUGADORES,
                         PERMISOS_PLANTILLAS, PERMISOS_HABILIDADES, PERMISOS_HABILIDADES_JUGADOR,
                         PERMISOS_GRUPOS_EQUIPOS, PERMISOS_AFICIONADOS_DE_EQUIPO, PERMISOS_PARTIDOS,
-                        PERMISOS_ANOTACIONES)
+                        PERMISOS_ANOTACIONES, PERMISOS_ESCENARIOS_LOCALIDADES, PERMISOS_METODOS_PAGO_ADMIN,
+                        PERMISOS_BOLETOS_APUESTAS)
                 .flatMap(Stream::of)
                 .collect(Collectors.toSet());
 
@@ -166,6 +214,15 @@ class DatabaseSeederTest extends AbstractAuthTest {
 
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_ANOTACIONES);
         assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_ANOTACIONES);
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaEscenariosYLocalidades() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_ESCENARIOS_LOCALIDADES);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_ESCENARIOS_LOCALIDADES);
+        assertThat(permisosDe("USUARIO INICIAL")).doesNotContain(PERMISOS_ESCENARIOS_LOCALIDADES);
     }
 
     @Test
@@ -245,6 +302,28 @@ class DatabaseSeederTest extends AbstractAuthTest {
         assertThat(permisosDe("USUARIO INICIAL")).contains(PERMISOS_AFICIONADO);
         assertThat(permisosDe("USUARIO INICIAL")).doesNotContain(PERMISOS_AFICIONADOS_DE_EQUIPO);
         assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_AFICIONADOS_DE_EQUIPO);
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaMetodosPagoDeAficionados() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_METODOS_PAGO_ADMIN);
+        assertThat(permisosDe("USUARIO INICIAL"))
+                .contains(PERMISOS_AFICIONADO)
+                .doesNotContain(PERMISOS_METODOS_PAGO_ADMIN);
+        assertThat(permisosDe("ADMIN"))
+                .doesNotContain(PERMISOS_AFICIONADO)
+                .doesNotContain(PERMISOS_METODOS_PAGO_ADMIN);
+    }
+
+    @Test
+    void soloAdministradorDeportivoGestionaBoletosYApuestas() throws Exception {
+        seedDatabase.run();
+
+        assertThat(permisosDe("ADMINISTRADOR DEPORTIVO")).contains(PERMISOS_BOLETOS_APUESTAS);
+        assertThat(permisosDe("USUARIO INICIAL")).doesNotContain(PERMISOS_BOLETOS_APUESTAS);
+        assertThat(permisosDe("ADMIN")).doesNotContain(PERMISOS_BOLETOS_APUESTAS);
     }
 
     private Set<String> permisosDe(String rol) {

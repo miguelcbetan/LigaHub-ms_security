@@ -167,6 +167,35 @@ public class DatabaseSeeder {
             new PermissionSeed("PATCH", "/anotaciones/{id}", "Anotacion"),
             new PermissionSeed("DELETE", "/anotaciones/{id}", "Anotacion"),
             new PermissionSeed("GET", "/escenarios", "Escenario"),
+            // HU-A: gestión de escenarios y de sus localidades.
+            new PermissionSeed("POST", "/escenarios", "Escenario"),
+            new PermissionSeed("GET", "/escenarios/{id}", "Escenario"),
+            new PermissionSeed("PATCH", "/escenarios/{id}", "Escenario"),
+            new PermissionSeed("DELETE", "/escenarios/{id}", "Escenario"),
+            new PermissionSeed("GET", "/localidades", "Localidad"),
+            new PermissionSeed("POST", "/localidades", "Localidad"),
+            new PermissionSeed("GET", "/localidades/{id}", "Localidad"),
+            new PermissionSeed("PATCH", "/localidades/{id}", "Localidad"),
+            new PermissionSeed("DELETE", "/localidades/{id}", "Localidad"),
+            // HU-B: gestión de métodos de pago de aficionados.
+            new PermissionSeed("GET", "/metodos-pago-aficionado", "MetodoPagoAficionado"),
+            new PermissionSeed("POST", "/metodos-pago-aficionado", "MetodoPagoAficionado"),
+            new PermissionSeed("GET", "/metodos-pago-aficionado/{id}", "MetodoPagoAficionado"),
+            new PermissionSeed("PATCH", "/metodos-pago-aficionado/{id}", "MetodoPagoAficionado"),
+            new PermissionSeed("DELETE", "/metodos-pago-aficionado/{id}", "MetodoPagoAficionado"),
+            new PermissionSeed("GET", "/metodos-pago", "MetodoPago"),
+            new PermissionSeed("GET", "/aficionados", "Aficionado"),
+            // HU-C: gestión de boletos y liquidación de apuestas.
+            new PermissionSeed("GET", "/boletas", "Boleta"),
+            new PermissionSeed("POST", "/boletas", "Boleta"),
+            new PermissionSeed("GET", "/boletas/{id}", "Boleta"),
+            new PermissionSeed("PATCH", "/boletas/{id}", "Boleta"),
+            new PermissionSeed("DELETE", "/boletas/{id}", "Boleta"),
+            new PermissionSeed("GET", "/apuestas", "Apuesta"),
+            new PermissionSeed("POST", "/apuestas", "Apuesta"),
+            new PermissionSeed("GET", "/apuestas/{id}", "Apuesta"),
+            new PermissionSeed("PATCH", "/apuestas/{id}", "Apuesta"),
+            new PermissionSeed("DELETE", "/apuestas/{id}", "Apuesta"),
             new PermissionSeed("GET", "/api/users", "User"),
             new PermissionSeed("GET", "/api/users/{id}", "User")
     };
@@ -177,7 +206,18 @@ public class DatabaseSeeder {
             new PermissionSeed("POST", "/aficionados/me", "Aficionado"),
             new PermissionSeed("GET", "/aficionados/me/equipos-disponibles", "Aficionado"),
             new PermissionSeed("POST", "/aficionados/me/equipos", "Aficionado"),
-            new PermissionSeed("DELETE", "/aficionados/me/equipos/{id}", "Aficionado")
+            new PermissionSeed("DELETE", "/aficionados/me/equipos/{id}", "Aficionado"),
+            new PermissionSeed("GET", "/aficionados/me/metodos-pago", "Aficionado"),
+            new PermissionSeed("POST", "/aficionados/me/metodos-pago", "Aficionado"),
+            new PermissionSeed("PATCH", "/aficionados/me/metodos-pago/{id}", "Aficionado"),
+            new PermissionSeed("DELETE", "/aficionados/me/metodos-pago/{id}", "Aficionado"),
+            new PermissionSeed("GET", "/aficionados/me/metodos-pago-disponibles", "Aficionado"),
+            // HU-C: compra de boletos y apuestas a nombre propio.
+            new PermissionSeed("GET", "/aficionados/me/partidos-disponibles", "Aficionado"),
+            new PermissionSeed("GET", "/aficionados/me/boletas", "Aficionado"),
+            new PermissionSeed("POST", "/aficionados/me/boletas", "Aficionado"),
+            new PermissionSeed("GET", "/aficionados/me/apuestas", "Aficionado"),
+            new PermissionSeed("POST", "/aficionados/me/apuestas", "Aficionado")
     };
 
     private final UserRepository userRepository;
